@@ -3,14 +3,26 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18" fx:controller="com.wellread4man.instantmessagingclient.HelloController">
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wellread4man.instantmessagingclient.HelloController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
+   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="your name：" />
+   <TextField fx:id="name" />
+   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="your password：" />
+   <TextField fx:id="password" />
+   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="send to (name)：" />
+   <TextField fx:id="goalname" />
+   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="message：" />
+   <TextField fx:id="message" />
+   <Text fx:id="logins" strokeType="OUTSIDE" strokeWidth="0.0" text="login" />
+   <Text fx:id="others" strokeType="OUTSIDE" strokeWidth="0.0" text="Others Message" />
 
     <Label fx:id="welcomeText" />
-    <Button onAction="#onHelloButtonClick" text="Hello!" />
-   <Button onAction="#onHelloButtonClick2" text="Hello2!" />
+    <Button onAction="#onLoginClick" text="login" />
+   <Button onAction="#onSendClick" text="send" />
 </VBox>

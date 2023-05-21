@@ -3,39 +3,68 @@ package com.wellread4man.instantmessagingclient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
+import service.TransmitImpl;
+import service.transmit;
 import util.*;
 
 public class HelloController {
     @FXML
+    private TextField goalname;
+
+    @FXML
+    private Text logins;
+
+    @FXML
+    private TextField message;
+
+    @FXML
+    private TextField name;
+
+    @FXML
+    private Text others;
+
+    @FXML
+    private TextField password;
+
+    @FXML
     private Label welcomeText;
 
+    TransmitImpl transmit=null;
+
     @FXML
-    protected void onHelloButtonClick() {
-        Utils.init();
-        ClientLoginImpl clientLogin = new ClientLoginImpl("chilun1", "123456", new RollBackImpl());
-        Thread thread = new Thread(clientLogin);
-        thread.start();
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        TCPTransmitSend tcpTransmit = new TCPTransmitSend("你好", "chilun2");
-        Thread thread2 = new Thread(tcpTransmit);
-        thread2.start();
-        welcomeText.setText("Welcome to JavaFX Application!");
+    void onLoginClick(ActionEvent event) {
+        transmit= new TransmitImpl(new RollBack() {
+            @Override
+            public void LoginSuccess() {
+                logins.setText("LoginSuccess");
+            }
+
+            @Override
+            public void LoginFailure() {
+                logins.setText("LoginFailure");
+            }
+
+            @Override
+            public void getFriendsSuccess() {
+                logins.setText(logins.getText()+"getFriendsSuccess");
+            }
+
+            @Override
+            public void Receive(String name, String message) {
+                others.setText(name+":"+message);
+            }
+        });
+        transmit.init();
+        String name1 = name.getText();
+        String password1 = password.getText();
+        transmit.login(name1,password1);
     }
 
     @FXML
-    protected void onHelloButtonClick2(ActionEvent event) {
-        Utils.init();
-        ClientLoginImpl clientLogin = new ClientLoginImpl("chilun2", "123456", new RollBackImpl());
-        Thread thread = new Thread(clientLogin);
-        thread.start();
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    void onSendClick(ActionEvent event) {
+        transmit.sendMessage(goalname.getText(),message.getText());
     }
+
 }

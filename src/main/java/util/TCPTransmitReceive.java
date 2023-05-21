@@ -35,12 +35,12 @@ public class TCPTransmitReceive implements TransmitReceive, Runnable {
                     count++;
                     name = line;
                 } else if ("bye".equals(line)) {//接收完成，进行处理
+                    count = 0;
                     rollBack.Receive(name, Utils.builder.toString());
                     Utils.builder = new StringBuilder();
                 } else {
                     Utils.builder.append(line + "\n");
                 }
-
             }
         } catch (IOException e) {
             e.printStackTrace();
