@@ -1,5 +1,8 @@
 package util;
 
+import Handler.Handler;
+import Handler.HandlerImpl;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.Socket;
@@ -12,11 +15,13 @@ public class TCPTransmitReceive implements TransmitReceive, Runnable {
     Socket socket;
     RollBack rollBack;
     BufferedReader br;
+    Handler handler;
 
     public TCPTransmitReceive(RollBack rollBack) {
         this.socket = Utils.clientSocket;
         this.br = Utils.br;
         this.rollBack = rollBack;
+        handler = new HandlerImpl(socket, rollBack, br);
     }
 
     @Override
@@ -27,21 +32,8 @@ public class TCPTransmitReceive implements TransmitReceive, Runnable {
     @Override
     public void receive() {
         try {
-            String line;
-            String name = null;
-            int count = 0;
-            while ((line = br.readLine()) != null) {
-                if (count == 0) {
-                    count++;
-                    name = line;
-                } else if ("bye".equals(line)) {//接收完成，进行处理
-                    count = 0;
-                    rollBack.Receive(name, Utils.builder.toString());
-                    Utils.builder = new StringBuilder();
-                } else {
-                    Utils.builder.append(line + "\n");
-                }
-            }
+            handler.handle();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -23,8 +23,9 @@ public class TCPTransmitSend implements TransmitSend, Runnable {
 
     @Override
     public void sendMessage(String goalName, String message) {
+        Utils.pw.println("OneLineMessage");
         Utils.pw.println(goalName);//第一行为目的用户
-        Utils.pw.println("*" + message);//之后带星号的都是信息
+        Utils.pw.println(message);//之后的都是信息
         Utils.pw.println("bye");//代表发送结束
     }
 }

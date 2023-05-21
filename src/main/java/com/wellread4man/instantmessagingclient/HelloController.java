@@ -66,5 +66,4 @@ public class HelloController {
     void onSendClick(ActionEvent event) {
         transmit.sendMessage(goalname.getText(),message.getText());
     }
-
 }

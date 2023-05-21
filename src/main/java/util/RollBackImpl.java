@@ -21,7 +21,7 @@ public class RollBackImpl implements RollBack{
     }
 
     @Override
-    public void Receive(String name,String message){
+    public void Receive(String name,String message){//接受单行信息
         System.out.println(name+"："+message);
     }
 }
