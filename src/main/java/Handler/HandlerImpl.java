@@ -29,24 +29,19 @@ public class HandlerImpl implements Handler {
         while ((line = br.readLine()) != null) {
             if (line.equals("OneLineMessage")) {
                 OneLineMessage();
-            }else if (line.equals("File")) {
+            } else if (line.equals("File")) {
                 File();
             }
         }
     }
 
-    private void File() {
+    private void File() throws IOException {
         String line = null;
         String sourceName = null;
         String fileName = null;
         String length = null;
         int count = 0;
-        while (true) {
-            try {
-                if (!((line = br.readLine()) != null)) break;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        while ((line = br.readLine()) != null) {
             if (count == 0) {//获得来源用户名
                 count++;
                 sourceName = line;
@@ -63,7 +58,12 @@ public class HandlerImpl implements Handler {
                 FileOutputStream fos = null;
                 try {
                     fos = new FileOutputStream(fileName);
-                    byte[] buffer = new byte[1024];
+                    byte[] buffer;
+                    if (Length < 1024) {
+                        buffer = new byte[(int) Length];
+                    } else {
+                        buffer = new byte[1024];
+                    }
                     int len;
                     long totalLen = 0;
                     InputStream inputStream = socket.getInputStream();
@@ -71,13 +71,15 @@ public class HandlerImpl implements Handler {
                         fos.write(buffer, 0, len);
                         totalLen += len;
                         if (totalLen == Length) {
-                            System.out.println("served："+totalLen);
+                            System.out.println("served：" + totalLen);
                             break;
+                        } else if (Length - totalLen < buffer.length && (Length - totalLen < 1024)) {//Length - totalLen为接收区还需要接受的剩余量
+                            buffer = new byte[(int) (Length - totalLen)];
                         }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
-                }finally {
+                } finally {
                     try {
                         fos.close();
                     } catch (IOException e) {
@@ -85,7 +87,7 @@ public class HandlerImpl implements Handler {
                     }
                 }
             } else if (count == 3 && line.equals("bye")) {
-                rollBack.ReceiveFile(sourceName,fileName);
+                rollBack.ReceiveFile(sourceName, fileName);
                 return;
             }
         }
