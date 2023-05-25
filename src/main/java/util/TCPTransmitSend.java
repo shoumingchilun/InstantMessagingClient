@@ -84,8 +84,8 @@ public class TCPTransmitSend implements TransmitSend, Runnable {
                 totalLen+=len;
             }
             System.out.println(totalLen);
-            Thread.sleep(2000);
-        } catch (IOException | InterruptedException e) {
+//            Thread.sleep(2000);
+        } catch (IOException e) {
             e.printStackTrace();
         }
         Utils.pw.println("bye");//本次会话结束

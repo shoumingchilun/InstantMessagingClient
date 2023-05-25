@@ -53,7 +53,7 @@ public class HandlerImpl implements Handler {
                 count++;
                 length = line;
                 //获得文件名后立即开始接受
-                fileName = Utils.storePath + fileName;
+                fileName = Utils.storePath + fileName;//拼接获得存储文件路径
                 long Length = Long.parseLong(length);
                 FileOutputStream fos = null;
                 try {
@@ -64,9 +64,9 @@ public class HandlerImpl implements Handler {
                     } else {
                         buffer = new byte[1024];
                     }
-                    int len;
+                    int len = 0;
                     long totalLen = 0;
-                    InputStream inputStream = socket.getInputStream();
+                    InputStream inputStream = Utils.inputStream;
                     while ((len = inputStream.read(buffer)) != -1) {
                         fos.write(buffer, 0, len);
                         totalLen += len;
