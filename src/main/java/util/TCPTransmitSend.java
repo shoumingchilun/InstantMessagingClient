@@ -68,7 +68,7 @@ public class TCPTransmitSend implements TransmitSend, Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String FileName = filePath.substring(index);
+        String FileName = filePath.substring(index+1);
         Utils.pw.println("File");
         Utils.pw.println(goalName);//第二行为目的用户
         Utils.pw.println(FileName);//第三行为文件名
@@ -77,14 +77,18 @@ public class TCPTransmitSend implements TransmitSend, Runnable {
         //开始发送
         try {
             byte[] buffer = new byte[1024];
+            long totalLen = 0;
             int len;
             while ((len = fis.read(buffer)) != -1) {
                 Utils.outputStream.write(buffer, 0, len);
+                totalLen+=len;
             }
-        } catch (IOException e) {
+            System.out.println(totalLen);
+            Thread.sleep(2000);
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-        Utils.pw.println("Bye");//本次会话结束
+        Utils.pw.println("bye");//本次会话结束
 
         try {
             fis.close();

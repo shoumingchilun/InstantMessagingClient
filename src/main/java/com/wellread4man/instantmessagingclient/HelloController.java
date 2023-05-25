@@ -10,6 +10,10 @@ import service.transmit;
 import util.*;
 
 public class HelloController {
+
+    @FXML
+    private TextField FilePath;
+
     @FXML
     private TextField goalname;
 
@@ -65,5 +69,10 @@ public class HelloController {
     @FXML
     void onSendClick(ActionEvent event) {
         transmit.sendMessage(goalname.getText(),message.getText());
+    }
+
+    @FXML
+    void sendFile(ActionEvent event) {
+        transmit.sendFile(goalname.getText(),FilePath.getText());
     }
 }

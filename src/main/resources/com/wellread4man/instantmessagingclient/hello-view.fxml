@@ -19,10 +19,13 @@
    <TextField fx:id="goalname" />
    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="message：" />
    <TextField fx:id="message" />
+   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="FilePath：" />
+   <TextField fx:id="FilePath" />
    <Text fx:id="logins" strokeType="OUTSIDE" strokeWidth="0.0" text="login" />
    <Text fx:id="others" strokeType="OUTSIDE" strokeWidth="0.0" text="Others Message" />
 
     <Label fx:id="welcomeText" />
     <Button onAction="#onLoginClick" text="login" />
    <Button onAction="#onSendClick" text="send" />
+   <Button mnemonicParsing="false" onAction="#sendFile" text="sendFile" />
 </VBox>
