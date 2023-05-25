@@ -19,6 +19,7 @@ public class Utils {
     public static PrintWriter pw;
     public static List<String> friends = new ArrayList<>();
     public static StringBuilder builder = new StringBuilder();
+    public static String storePath = "D:\\tempFile\\1\\";
 
     public static void init() {
         try {

@@ -59,6 +59,11 @@ public class HelloController {
             public void Receive(String name, String message) {
                 others.setText(name+":"+message);
             }
+
+            @Override
+            public void ReceiveFile(String name, String filePath) {
+                others.setText(name+":"+filePath);
+            }
         });
         transmit.init();
         String name1 = name.getText();

@@ -9,4 +9,5 @@ public interface RollBack {
     void LoginFailure();
     void getFriendsSuccess();
     void Receive(String name,String message);
+    void ReceiveFile(String name,String filePath);
 }
