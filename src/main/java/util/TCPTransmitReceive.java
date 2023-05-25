@@ -34,7 +34,8 @@ public class TCPTransmitReceive implements TransmitReceive, Runnable {
         try {
             handler.handle();
 
-        } catch (IOException e) {
+        } catch (IOException e) {//报错意味着连接中断
+            System.out.println("连接中断");
             e.printStackTrace();
         }
     }

@@ -27,8 +27,19 @@ public class TransmitImpl implements transmit {
 
     @Override
     public void sendMessage(String name, String message) {
-        TCPTransmitSend tcpTransmit = new TCPTransmitSend(message, name);
+        TCPTransmitSend tcpTransmit = new TCPTransmitSend(name);
+        tcpTransmit.setMessage(message);
         Thread thread2 = new Thread(tcpTransmit);
         thread2.start();
     }
+
+    @Override
+    public void sendFile(String goalname, String filePath) {
+        TCPTransmitSend tcpTransmit = new TCPTransmitSend(goalname);
+        tcpTransmit.setFileName(filePath);
+        Thread thread2 = new Thread(tcpTransmit);
+        thread2.start();
+    }
+
+
 }
