@@ -74,6 +74,11 @@ public class TCPTransmitSend implements TransmitSend, Runnable {
         Utils.pw.println(FileName);//第三行为文件名
         Utils.pw.println(file.length());//第四行为文件长度
 
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         //开始发送
         try {
             byte[] buffer = new byte[1024];
