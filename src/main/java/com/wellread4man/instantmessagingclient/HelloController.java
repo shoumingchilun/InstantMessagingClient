@@ -1,44 +1,41 @@
 package com.wellread4man.instantmessagingclient;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import service.TransmitImpl;
-import service.transmit;
 import util.*;
 
 public class HelloController {
 
     @FXML
-    private TextField FilePath;
-
-    @FXML
-    private TextField goalname;
-
+    public Button login;
     @FXML
     private Text logins;
 
     @FXML
-    private TextField message;
-
-    @FXML
     private TextField name;
 
-    @FXML
-    private Text others;
 
     @FXML
     private TextField password;
-
     @FXML
-    private Label welcomeText;
+    private Text others;
 
     TransmitImpl transmit=null;
 
     @FXML
     void onLoginClick(ActionEvent event) {
+        String name1 = name.getText();
+        String password1 = password.getText();
         transmit= new TransmitImpl(new RollBack() {
             @Override
             public void LoginSuccess() {
@@ -49,35 +46,48 @@ public class HelloController {
             public void LoginFailure() {
                 logins.setText("LoginFailure");
             }
-
             @Override
             public void getFriendsSuccess() {
-                logins.setText(logins.getText()+"getFriendsSuccess");
+                try {
+                    // 加载主页面的FXML文件
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
+                    Parent root = loader.load();
+
+                    // 获取主页面的控制器
+                    Main mainController = loader.getController();
+                    mainController.transmit = transmit;
+                    mainController.setUserInfo(name1);
+                    Platform.runLater(() -> {
+                        // 创建新的场景和舞台
+                        Scene mainScene = new Scene(root);
+                        Stage mainStage = new Stage();
+                        mainStage.setScene(mainScene);
+                        mainStage.setTitle("主页面");
+
+                        // 关闭登录页面舞台，显示主页面舞台
+                        Stage loginStage = (Stage) login.getScene().getWindow();
+                        Utils.friends.forEach(mainController.contactListView.getItems()::add);
+                        mainStage.show();
+//                        mainStage.getIcons().add(new Image(Main.class.getResource("").toString()));
+                        loginStage.close();
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
             public void Receive(String name, String message) {
-                others.setText(name+":"+message);
+                System.out.println(name+":"+message);
             }
 
             @Override
             public void ReceiveFile(String name, String filePath) {
-                others.setText(name+":"+filePath);
+
             }
         });
         transmit.init();
-        String name1 = name.getText();
-        String password1 = password.getText();
         transmit.login(name1,password1);
-    }
-
-    @FXML
-    void onSendClick(ActionEvent event) {
-        transmit.sendMessage(goalname.getText(),message.getText());
-    }
-
-    @FXML
-    void sendFile(ActionEvent event) {
-        transmit.sendFile(goalname.getText(),FilePath.getText());
     }
 }
